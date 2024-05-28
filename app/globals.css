@@ -30,4 +30,14 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  @layer utilities {
+    .separator {
+      @apply text-center relative mx-0 my-5 before:left-0 after:right-0;
+    }
+    .separator:before,
+    .separator:after {
+      @apply content-[""] absolute w-2/5 border-b-[#49494e] border-b border-solid top-2/4;
+    }
+  }
 }
