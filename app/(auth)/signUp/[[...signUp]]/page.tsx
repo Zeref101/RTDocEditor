@@ -1,11 +1,42 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import login from "/public/login.svg"
 import Image from 'next/image'
 import google from "/public/google.svg"
 import Link from 'next/link'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import toast from "react-hot-toast"
 
-const page = () => {
+const Page = () => {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false)
+
+    const router = useRouter();
+
+    const signUp = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setLoading(true);
+
+        try {
+            const response = await axios.post(`http://localhost:8000/api/auth/signUp`, {
+                email: email,
+                username: username,
+                password: password
+            });
+            if (response.status === 201) {
+
+                // toast.success('Successfully toasted!')
+                router.push('/signIn')
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <div className=' flex flex-col justify-center items-center w-2/4 '>
             <div className='flex flex-col justify-center items-center'>
@@ -21,7 +52,14 @@ const page = () => {
                     Create your account and start exploring our amazing features!
                 </p>
             </div>
-            <form action="" className='flex flex-col gap-4 w-3/5 justify-start mt-4 '>
+            <form
+                action=""
+                className='flex flex-col gap-4 w-3/5 justify-start mt-4 '
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    signUp(e)
+                }}
+            >
                 <label htmlFor="username"
                     className='text-[18px] font-medium leading-[25.2px]'
                 >Username <span className=' text-red-600'>*</span></label>
@@ -32,6 +70,7 @@ const page = () => {
                     placeholder="Username"
                     required
                     className=' rounded-md p-3 border border-[#212734] bg-[#0F1117]'
+                    onChange={(e) => setUsername(e.target.value)}
                 />
 
                 <label htmlFor="email" className='text-[18px] font-medium leading-[25.2px]'>Email <span className=' text-red-600'>*</span></label>
@@ -42,6 +81,8 @@ const page = () => {
                     placeholder="Email"
                     required
                     className=' rounded-md p-3 border border-[#212734] bg-[#0F1117]'
+                    onChange={(e) => setEmail(e.target.value)}
+
                 />
 
                 <label htmlFor="password" className='text-[18px] font-medium leading-[25.2px]'>Password <span className=' text-red-600'>*</span></label>
@@ -52,13 +93,15 @@ const page = () => {
                     placeholder="Password"
                     required
                     className=' rounded-md p-3 border border-[#212734] bg-[#0F1117]'
+                    onChange={(e) => setPassword(e.target.value)}
+
                 />
 
-                <input type="submit" value="Sign Up" className=' bg-[#d0aae7] mt-8 w-full p-3 border rounded-md text-black cursor-pointer' />
+                <input type="submit" value={loading ? "Loading..." : "Sign Up"} className=' bg-[#d0aae7] mt-8 w-full p-3 border rounded-md text-black cursor-pointer' disabled={loading} />
                 <div className='separator text-[18px] font-medium leading-[13px]'>or</div>
             </form>
             <button className=' flex items-center justify-center w-3/5 border-2 p-2.5 rounded-md' onClick={() => {
-                console.log("hello")
+                window.location.href = `http://localhost:8000/auth/google`;
             }} >
                 <Image
                     src={google}
@@ -74,4 +117,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
