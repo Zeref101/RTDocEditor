@@ -1,0 +1,91 @@
+.tiptap > * + * {
+  margin-top: 0.75em;
+}
+.tiptap ul,
+.tiptap ol {
+  padding: 0 1rem;
+}
+.tiptap h1 {
+  line-height: 1.1;
+  font-weight: 700;
+  font-size: 2em; /* adjust as needed */
+}
+
+.tiptap h2 {
+  line-height: 1.1;
+  font-weight: 700;
+
+  font-size: 1.75em; /* adjust as needed */
+}
+
+.tiptap h3 {
+  line-height: 1.1;
+  font-weight: 700;
+
+  font-size: 1.5em; /* adjust as needed */
+}
+
+.tiptap h4 {
+  line-height: 1.1;
+  font-weight: 700;
+
+  font-size: 1.25em; /* adjust as needed */
+}
+
+.tiptap h5 {
+  line-height: 1.1;
+  font-weight: 700;
+
+  font-size: 1em; /* adjust as needed */
+}
+
+.tiptap h6 {
+  line-height: 1.1;
+  font-weight: 700;
+
+  font-size: 0.875em; /* adjust as needed */
+}
+.tiptap code {
+  background-color: rgba(97, 97, 97, 0.1);
+  color: #616161;
+}
+.tiptap pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+.tiptap pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+}
+.tiptap hr {
+  margin: 1rem 0;
+}
+.tiptap blockquote {
+  padding-left: 1rem;
+  color: #eee;
+  /* border-left: 2px solid rgba(13, 13, 13, 0.1); */
+  font-style: italic; /* Add this line if you want the text to be italic */
+  margin: 1em 0; /* Add this line if you want to add some vertical margin */
+}
+.tiptap ul {
+  list-style-type: disc; /* this will give you a bullet point */
+  padding-left: 1.5em; /* adjust as needed */
+}
+
+.tiptap ul li li {
+  list-style-type: circle;
+  margin-bottom: 0.5em; /* adjust as needed */
+}
+.tiptap ul li li li {
+  list-style-type: square;
+  margin-bottom: 0.5em; /* adjust as needed */
+}
