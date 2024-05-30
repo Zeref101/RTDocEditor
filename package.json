@@ -11,6 +11,12 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@tiptap/core": "^2.4.0",
+    "@tiptap/extension-highlight": "^2.4.0",
+    "@tiptap/extension-typography": "^2.4.0",
+    "@tiptap/pm": "^2.4.0",
+    "@tiptap/react": "^2.4.0",
+    "@tiptap/starter-kit": "^2.4.0",
     "@types/bcrypt": "^5.0.2",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
@@ -20,7 +26,9 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "sass": "^1.77.3",
+    "sortablejs": "^1.15.2"
   },
   "devDependencies": {
     "@types/node": "^20",
