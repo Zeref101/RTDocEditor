@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tiptap/core": "^2.4.0",
+    "@tiptap/extension-collaboration": "^2.4.0",
     "@tiptap/extension-highlight": "^2.4.0",
     "@tiptap/extension-typography": "^2.4.0",
     "@tiptap/pm": "^2.4.0",
@@ -20,6 +21,7 @@
     "@types/bcrypt": "^5.0.2",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
+    "lodash": "^4.17.21",
     "mongodb": "^6.6.2",
     "mongoose": "^8.4.0",
     "next": "14.2.3",
@@ -28,9 +30,11 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "sass": "^1.77.3",
-    "sortablejs": "^1.15.2"
+    "sortablejs": "^1.15.2",
+    "yjs": "^13.6.15"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
