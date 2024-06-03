@@ -89,3 +89,9 @@
   list-style-type: square;
   margin-bottom: 0.5em; /* adjust as needed */
 }
+.tiptap:focus {
+  outline: none;
+}
+.ProseMirror {
+  height: 100vh;
+}
