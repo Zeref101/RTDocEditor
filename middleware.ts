@@ -4,8 +4,13 @@ export default function middleware(req: any) {
   let verify = req.cookies.get("pookie");
   let url = req.url;
 
-  // If the cookie doesn't exist and the current page is the homepage, redirect to "/signUp"
-  if (!verify && url === "http://localhost:3000/") {
+  // If the cookie doesn't exist and the current page is "/", "/document", or "/dashboard", redirect to "/signUp"
+  if (
+    !verify &&
+    (url === "http://localhost:3000/" ||
+      url === "http://localhost:3000/document" ||
+      url === "http://localhost:3000/dashboard")
+  ) {
     return NextResponse.redirect("http://localhost:3000/signUp");
   }
 
