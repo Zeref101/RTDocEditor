@@ -8,12 +8,25 @@ import Highlight from '@tiptap/extension-highlight'
 import Typography from '@tiptap/extension-typography'
 import Collaboration from '@tiptap/extension-collaboration';
 import * as Y from "yjs"
-import { debounce } from "lodash"
-import axios from 'axios';
+import { TiptapCollabProvider } from '@hocuspocus/provider';
+import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 
-const Tiptap = ({ document_id }: { document_id: string }) => {
+interface TipTapProps {
+    document_id: string,
+    username: string
+}
+
+const Tiptap = ({ document_id, username }: TipTapProps) => {
+    const [isLoading, setIsLoading] = React.useState(true);
+
     const doc = new Y.Doc();
-    const ws = React.useRef<WebSocket | null>(null);
+    const provider = new TiptapCollabProvider({
+        name: document_id,
+        appId: "y9wv0gmx",
+        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc0MjExODgsIm5iZiI6MTcxNzQyMTE4OCwiZXhwIjoxNzE3NTA3NTg4LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ5OXd2MGdteCJ9.oqWAl-HonSB2f_D5nMy2ynLy_3TTpUEIKI6oZVclh8I",
+        document: doc,
+    })
+
 
     const editor = useEditor({
         extensions: [
@@ -22,38 +35,22 @@ const Tiptap = ({ document_id }: { document_id: string }) => {
             Typography,
             Collaboration.configure({
                 document: doc
+            }),
+            CollaborationCursor.configure({
+                provider,
+                user: {
+                    name: username,
+                    color: '#f783ac'
+                }
             })
         ],
-        content: `
-        <p>Type here Something</p>
-
-        `,
+        content: "Type here",
+        onUpdate: () => setIsLoading(false),
     })
-    React.useEffect(() => {
-        ws.current = new WebSocket(`ws://localhost:8000/`);
-        ws.current.onopen = () => {
-            console.log("Websocket connection established");
-        }
-        return () => {
-            ws.current?.close();
-        }
-    }, [document_id])
-    React.useEffect(() => {
-        if (editor && ws.current) {
-            const saveContent = debounce(() => {
-                const htmlContent = editor.getHTML();
-                ws.current?.send(JSON.stringify({
-                    content: htmlContent,
-                }));
-            }, 1000);
 
-            editor.on('update', saveContent);
-
-            return () => {
-                editor.off('update', saveContent);
-            };
-        }
-    }, [editor]);
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <div className='tiptap'>
