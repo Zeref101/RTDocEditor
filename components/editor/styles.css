@@ -95,3 +95,27 @@
 .ProseMirror {
   height: 100vh;
 }
+.collaboration-cursor__caret {
+  margin-left: 3px;
+  margin-right: -1px;
+  pointer-events: none;
+  position: relative;
+  word-break: normal;
+}
+.collaboration-cursor__label {
+  border-radius: 3px 3px 3px 0;
+  color: #0d0d0d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  left: -1px;
+  line-height: normal;
+  padding: 0.1rem 0.3rem;
+  position: absolute;
+  top: -1.4em;
+  user-select: none;
+  white-space: nowrap;
+}
+.tiptap {
+  color: rgba(255, 255, 255, 0.81);
+}
