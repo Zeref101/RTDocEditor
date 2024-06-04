@@ -19,13 +19,13 @@ interface TipTapProps {
 const Tiptap = ({ document_id, username }: TipTapProps) => {
     const [isLoading, setIsLoading] = React.useState(true);
 
-    const doc = new Y.Doc();
-    const provider = new TiptapCollabProvider({
+    const doc = React.useMemo(() => new Y.Doc(), []);
+    const provider = React.useMemo(() => new TiptapCollabProvider({
         name: document_id,
         appId: "y9wv0gmx",
         token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc0MjExODgsIm5iZiI6MTcxNzQyMTE4OCwiZXhwIjoxNzE3NTA3NTg4LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ5OXd2MGdteCJ9.oqWAl-HonSB2f_D5nMy2ynLy_3TTpUEIKI6oZVclh8I",
         document: doc,
-    })
+    }), [document_id, doc]);
 
 
     const editor = useEditor({
@@ -47,6 +47,12 @@ const Tiptap = ({ document_id, username }: TipTapProps) => {
         content: "Type here",
         onUpdate: () => setIsLoading(false),
     })
+    React.useEffect(() => {
+        return () => {
+            editor?.destroy();
+            provider.disconnect();
+        };
+    }, [editor, provider])
 
     if (isLoading) {
         return <div>Loading...</div>
