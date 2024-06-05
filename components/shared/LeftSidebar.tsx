@@ -29,16 +29,21 @@ const LeftSidebar = () => {
     React.useEffect(() => {
         const fetchDocs = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/api/documents");
+                const response = await axios.get(`http://localhost:8000/api/documents/${user?._id}`);
                 setFetchedDocs(response.data)
             } catch (error) {
                 console.error('Failed to fetch documents:', error);
             }
         };
+        if (user?._id) {
 
-        fetchDocs();
+            fetchDocs();
+        } else {
+            console.log("no user id found")
+        }
 
-    }, [])
+
+    }, [user?._id])
 
 
     // console.log(user)
@@ -121,7 +126,7 @@ const LeftSidebar = () => {
                     fetchedDocs ? (
                         fetchedDocs.map(doc => (
                             <Link
-                                href={editingDocId !== doc.id ? `/document/${doc.id}` : '#'}
+                                href={editingDocId !== doc.id ? `/document/${doc.id}?edit=true` : '#'}
                                 key={doc.id}
                                 className='w-full'
                             >
