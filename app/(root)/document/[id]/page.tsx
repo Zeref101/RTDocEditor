@@ -2,6 +2,7 @@
 import React from 'react'
 import Tiptap from '@/components/editor/TipTap'
 import UserContext, { UserContextProps } from '@/context/UserDetails';
+import Share from '@/components/share/Share';
 
 const Page = ({ params }: { params: { id: string } }) => {
     const userContext = React.useContext(UserContext) as UserContextProps;
@@ -20,8 +21,8 @@ const Page = ({ params }: { params: { id: string } }) => {
 
     return (
         <>
-            <div className='w-full h-full flex flex-col justify-center items-center'>
-                <div>Document: {params.id}</div>
+            <Share doc_id={params.id} />
+            <div className='w-full h-screen p-8 mt-24 overflow-y-scroll flex flex-col justify-center items-center font-poppins'>
                 <div className=' w-2/5 h-full'>
                     <Tiptap
                         document_id={params.id}
