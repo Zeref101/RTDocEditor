@@ -11,16 +11,19 @@ import * as Y from "yjs"
 import { TiptapCollabProvider } from '@hocuspocus/provider';
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 import 'react-loading-skeleton/dist/skeleton.css'
+import { useSearchParams } from 'next/navigation';
 
 interface TipTapProps {
     document_id: string,
     username: string
+    isEditable: boolean
 }
 
-const Tiptap = ({ document_id, username }: TipTapProps) => {
-    const [isLoading, setIsLoading] = React.useState(true);
+const Tiptap = ({ document_id, username, isEditable }: TipTapProps) => {
 
+    const [isLoading, setIsLoading] = React.useState(true);
     const doc = React.useMemo(() => new Y.Doc(), []);
+
     const provider = React.useMemo(() => new TiptapCollabProvider({
         name: document_id,
         appId: "y9wv0gmx",
@@ -46,9 +49,12 @@ const Tiptap = ({ document_id, username }: TipTapProps) => {
             })
         ],
         content: "Type here",
+        editable: isEditable
 
 
     })
+
+
     React.useEffect(() => {
         provider.connect();
         setIsLoading(false);
