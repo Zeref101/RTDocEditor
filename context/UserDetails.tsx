@@ -6,7 +6,8 @@ export interface UserProps {
     _id: ObjectId,
     username: string,
     email: string,
-    avatar?: string
+    avatar?: string,
+    savedDocuments: string[]
 }
 
 export interface UserContextProps {
@@ -48,7 +49,7 @@ export const UserDetails = ({ children }: { children: React.ReactNode }) => {
                 fetchUserDetails();
             }
         } else {
-            setLoading(false); // No session cookie found, stop loading
+            setLoading(false);
         }
     }, [existingUser?.user]);
 
