@@ -10,6 +10,7 @@ import Collaboration from '@tiptap/extension-collaboration';
 import * as Y from "yjs"
 import { TiptapCollabProvider } from '@hocuspocus/provider';
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 interface TipTapProps {
     document_id: string,
@@ -23,7 +24,7 @@ const Tiptap = ({ document_id, username }: TipTapProps) => {
     const provider = React.useMemo(() => new TiptapCollabProvider({
         name: document_id,
         appId: "y9wv0gmx",
-        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc0MjExODgsIm5iZiI6MTcxNzQyMTE4OCwiZXhwIjoxNzE3NTA3NTg4LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ5OXd2MGdteCJ9.oqWAl-HonSB2f_D5nMy2ynLy_3TTpUEIKI6oZVclh8I",
+        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc1NzgwNzIsIm5iZiI6MTcxNzU3ODA3MiwiZXhwIjoxNzE3NjY0NDcyLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ5OXd2MGdteCJ9.Eh1jOCmZuhvkGVxKoUs3C9wu_kaGS1-GCyKYuLttJCU",
         document: doc,
     }), [document_id, doc]);
 
@@ -45,23 +46,28 @@ const Tiptap = ({ document_id, username }: TipTapProps) => {
             })
         ],
         content: "Type here",
-        onUpdate: () => setIsLoading(false),
+
+
     })
     React.useEffect(() => {
+        provider.connect();
+        setIsLoading(false);
         return () => {
             editor?.destroy();
             provider.disconnect();
         };
     }, [editor, provider])
 
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
 
     return (
         <div className='tiptap'>
-
-            <EditorContent editor={editor} />
+            {
+                isLoading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <EditorContent editor={editor} />
+                )
+            }
         </div>
     )
 }
