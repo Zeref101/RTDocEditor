@@ -6,8 +6,7 @@ export const createDocument = async (user: UserProps) => {
     const response = await axios.post("http://localhost:8000/api/documents", {
       owner: user?._id,
     });
-
-    console.log("Document created:", response.data._id);
+    return response.data._id;
   } catch (error) {
     console.error("Failed to create document:", error);
   }
