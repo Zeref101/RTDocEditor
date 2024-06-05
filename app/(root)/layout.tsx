@@ -1,16 +1,19 @@
 import React from "react"
 import { UserDetails } from "@/context/UserDetails"
+import Navbar from "@/components/shared/Navbar"
+import LeftSidebar from "@/components/shared/LeftSidebar"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
 
     return (
-        <main className="text-white flex min-h-screen flex-col items-center justify-between  bg-[#171717]">
-            <UserDetails>
-                <div className="min-h-screen">
-                    {children}
-                </div>
-            </UserDetails>
+        // <UserDetails>
+        <main className=" bg-[#1c1c20] relative flex">
+            <LeftSidebar />
+            <div className=" w-full ">
+                {children}
+            </div>
         </main>
+        // </UserDetails>
     )
 }
 
