@@ -5,7 +5,7 @@ export interface SidebarLink {
 }
 
 import home from "../public/home.svg";
-import saved from "../public/save.svg";
+import saved from "../public/star.svg";
 
 export const sidebarLinks: SidebarLink[] = [
   {
