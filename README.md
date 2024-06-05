@@ -36,14 +36,6 @@ RTDE is a collaborative document editor that supports real-time editing using Ma
 - **Invite Collaborators:** Share the document link with teammates to collaborate in real-time.
 - **Markdown Formatting:** Use Markdown syntax to format your documents easily.
 
-## Contributing
-
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for more information.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ---
 
-**RTDE** - Collaborate, Create, Conquer in Real-Time!
+**RTDE** - Collaborate, Create, Learn Together!
