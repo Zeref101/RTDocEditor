@@ -6,7 +6,6 @@ export interface SidebarLink {
 
 import home from "../public/home.svg";
 import saved from "../public/save.svg";
-import add from "../public/add.svg";
 
 export const sidebarLinks: SidebarLink[] = [
   {
@@ -18,10 +17,5 @@ export const sidebarLinks: SidebarLink[] = [
     imgURL: saved,
     route: "/favourites",
     label: "Saved",
-  },
-  {
-    imgURL: add,
-    route: "/document/",
-    label: "Create a new Doc",
   },
 ];
