@@ -11,22 +11,21 @@ export interface UserProps {
 
 export interface UserContextProps {
     user: UserProps | null,
-    setUser: (user: UserProps | null) => void
+    setUser: (user: UserProps | null) => void,
+    loading: boolean
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserDetails = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserProps | null>(null);
-
+    const [loading, setLoading] = useState(true);
     const existingUser = useContext(UserContext);
 
     useEffect(() => {
-        let sessionCookie = document.cookie.split("; ").find((cookie) => {
-            return cookie.startsWith("pookie");
-        })
+        const sessionCookie = document.cookie.split("; ").find(cookie => cookie.startsWith("pookie"));
         if (sessionCookie) {
-            let cookieValue = sessionCookie.split("=")[1];
+            const cookieValue = sessionCookie.split("=")[1];
 
             const fetchUserDetails = async () => {
                 try {
@@ -38,22 +37,23 @@ export const UserDetails = ({ children }: { children: React.ReactNode }) => {
 
                     setUser(data.user);
                     console.log('Set user:', data.user);
-
-                    console.log(data.user)
                 } catch (error) {
                     console.error('Failed to fetch user details:', error);
+                } finally {
+                    setLoading(false);
                 }
             };
-            if (!existingUser) {
+
+            if (!existingUser?.user) {
                 fetchUserDetails();
-
             }
-
+        } else {
+            setLoading(false); // No session cookie found, stop loading
         }
-    }, []);
+    }, [existingUser?.user]);
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, loading }}>
             {children}
         </UserContext.Provider>
     );
