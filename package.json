@@ -31,6 +31,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
+    "react-loading-skeleton": "^3.4.0",
     "sass": "^1.77.3",
     "sortablejs": "^1.15.2",
     "yjs": "^13.6.15"
