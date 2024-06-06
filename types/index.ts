@@ -6,3 +6,16 @@ export interface UserProps {
   email: string;
   avatar?: string;
 }
+export interface Document {
+  _id: ObjectId;
+  owner: ObjectId;
+  lastModified: Date;
+  __v: number;
+  content: string;
+  title: string;
+}
+
+export interface CollaborationDocumentProp {
+  documentId: Document;
+  userId: ObjectId[];
+}

@@ -15,7 +15,7 @@ export const sidebarLinks: SidebarLink[] = [
   },
   {
     imgURL: saved,
-    route: "/favourites",
+    route: "/saved",
     label: "Saved",
   },
 ];
