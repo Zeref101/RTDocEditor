@@ -27,7 +27,7 @@ const Tiptap = ({ document_id, username, isEditable }: TipTapProps) => {
     const provider = React.useMemo(() => new TiptapCollabProvider({
         name: document_id,
         appId: "y9wv0gmx",
-        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc1NzgwNzIsIm5iZiI6MTcxNzU3ODA3MiwiZXhwIjoxNzE3NjY0NDcyLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ5OXd2MGdteCJ9.Eh1jOCmZuhvkGVxKoUs3C9wu_kaGS1-GCyKYuLttJCU",
+        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc2NjQ1NTUsIm5iZiI6MTcxNzY2NDU1NSwiZXhwIjoxNzE3NzUwOTU1LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ5OXd2MGdteCJ9.9W1dHLEM15Zbgw2rBupqG0yFI7YbZWr_49DVtkd0D0A",
         document: doc,
     }), [document_id, doc]);
 
