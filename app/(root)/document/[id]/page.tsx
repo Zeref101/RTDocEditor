@@ -5,6 +5,7 @@ import UserContext, { UserContextProps } from '@/context/UserDetails';
 import Share from '@/components/share/Share';
 import { useSearchParams } from 'next/navigation';
 import DocNav from '@/components/documentNavbar/DocNav';
+import axios from 'axios';
 
 const Page = ({ params }: { params: { id: string } }) => {
     const userContext = React.useContext(UserContext) as UserContextProps;
@@ -12,6 +13,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const searchParams = useSearchParams();
     const [isEditable, setIsEditable] = React.useState(false);
+    const [isCollaborator, setIsCollaborator] = React.useState(false)
 
 
     React.useEffect(() => {
@@ -22,7 +24,21 @@ const Page = ({ params }: { params: { id: string } }) => {
 
     React.useEffect(() => {
         setIsEditable(searchParams.get("edit") === "true" ? true : false);
+        setIsCollaborator(searchParams.get("collab") === "true" ? true : false);
+        // console.log(searchParams.keys())
     }, [searchParams]);
+
+    React.useEffect(() => {
+        if (isCollaborator && user?._id && params.id) {
+            axios.post(`http://localhost:8000/api/collab_doc/addUser/${params.id}`, { userId: user._id })
+                .then(response => {
+                    console.log('User added as collaborator', response.data);
+                })
+                .catch(error => {
+                    console.error('Error adding user as collaborator', error);
+                });
+        }
+    }, [isCollaborator, user?._id, params.id]);
 
     if (isLoading) {
         return <div>Loading...</div>;
