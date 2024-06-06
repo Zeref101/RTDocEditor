@@ -12,7 +12,7 @@ const Share = ({ doc_id }: { doc_id: string }) => {
     const [showDropdown, setShowDropdown] = useState(false);
 
     const copyToClipboard = (edit: boolean) => {
-        const shareableLink = `${window.location.origin}/document/${doc_id}?edit=${edit}`;
+        const shareableLink = `${window.location.origin}/document/${doc_id}?edit=${edit}&collab=${edit}`;
 
         navigator.clipboard.writeText(shareableLink)
             .then(() => {
