@@ -23,6 +23,7 @@
     "@types/bcrypt": "^5.0.2",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "mongodb": "^6.6.2",
     "mongoose": "^8.4.0",
@@ -38,6 +39,7 @@
     "yjs": "^13.6.15"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20",
     "@types/react": "^18",
