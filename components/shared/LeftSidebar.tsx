@@ -5,32 +5,51 @@ import React, { useContext } from 'react'
 import defaultpfp from "/public/default.jpg";
 import { sidebarLinks } from '@/constants/Sidebar';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { createDocument } from '@/services/document';
 import add from "../../public/add.svg";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import edit from "../../public/edit.svg"
-import { CollaborationDocumentProp } from '@/types';
+import { CollaborationDocumentProp, UserProps } from '@/types';
 import logout from "../../public/logout.svg";
 import Cookies from 'js-cookie';
+import PacmanLoader from "react-spinners/PacmanLoader";
 
-interface docProp {
+export interface docProp {
     id: string,
     title: string
 }
 
+interface fetchCollabDocsProps {
+    user: UserProps;
+    setCollabDocs: (collabDocs: CollaborationDocumentProp[]) => void;
+
+
+}
+export async function fetchCollabDocs({ user, setCollabDocs }: fetchCollabDocsProps) {
+    if (user?._id) {
+        try {
+            const response = await axios.get(`http://localhost:8000/api/collab_docs/getDocs/${user._id}`);
+            setCollabDocs(response.data);
+        } catch (error) {
+            console.error('Failed to fetch collaborated documents:', error);
+        }
+    } else {
+        console.log("no user id found")
+    }
+}
 
 
 const LeftSidebar = () => {
-    const pathname = usePathname();
     const userContext = useContext(UserContext) as UserContextProps;
-    const { user, loading } = userContext;
+    const { user } = userContext;
     const [docLink, setDocLink] = React.useState("");
     const router = useRouter();
     const [fetchedDocs, setFetchedDocs] = React.useState<docProp[] | []>([])
     const [editingDocId, setEditingDocId] = React.useState<string | null>(null);
-    const [collabDocs, setCollabDocs] = React.useState<CollaborationDocumentProp[] | []>([]);
+    const [collabDocs, setCollabDocs] = React.useState<CollaborationDocumentProp[] | []>
+        ([]);
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         const fetchDocs = async () => {
@@ -51,22 +70,23 @@ const LeftSidebar = () => {
 
     }, [user?._id])
     React.useEffect(() => {
-        const fetchCollabDocs = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8000/api/collab_docs/getDocs/${user?._id}`);
-                setCollabDocs(response.data);
-            } catch (error) {
-                console.error('Failed to fetch collaborated documents:', error);
-            }
-        };
+        if (user !== null) {
 
-        if (user?._id) {
-            fetchCollabDocs();
-        } else {
-            console.log("no user id found")
+            fetchCollabDocs({ user, setCollabDocs });
         }
-    }, [user?._id]);
-    console.log(collabDocs, "iasofoiajfoajfoa")
+    }, [user?._id, user]); //! can cause more frequent re-renders if user changes too often
+
+    React.useEffect(() => {
+        if (user) {
+
+            setTimeout(() => {
+                setLoading(false);
+            }, 1500);
+        }
+
+    }, [user])
+
+
 
 
     // console.log(user)
@@ -74,8 +94,15 @@ const LeftSidebar = () => {
     if (loading) {
         return (
             <div className='w-[270px] sticky left-0 top-0 flex h-screen flex-col justify-start overflow-y-auto border-r p-3 bg-[#26262c]'>
-                <div className='flex gap-4 justify-start items-center h-fit w-[175px] p-2.5'>
-                    <span className='text-[15px] font-medium leading-[25.2px]'>Loading...</span>
+                <div className='flex gap-4 justify-center items-center h-fit w-[175px] p-2.5'>
+
+                    <PacmanLoader
+                        color={"#eee"}
+                        loading={loading}
+                        size={25}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                    />
                 </div>
             </div>
         );
@@ -145,6 +172,18 @@ const LeftSidebar = () => {
                             <p className=''>{`Create a new Doc`}</p>
                         </Link>
                     </div>
+                    <p className=' text-gray-400 font-poppins mt-4'>Personal</p>
+                    <Link
+                        href={editingDocId !== user?.personal ? `/document/${user?.personal}?edit=true` : '#'}
+                        key={user?.personal}
+                        className='w-full '
+                    >
+                        <p className=' w-full p-2 rounded-md line-clamp-1 hover:bg-[#3f3f4292]'
+                        >Personal Home</p>
+
+                    </Link>
+
+
                     <p className=' text-gray-400 font-poppins mt-4'>Collaborate</p>
                     <div className=' flex flex-col gap-4 mt-4'>
 
@@ -202,7 +241,10 @@ const LeftSidebar = () => {
 
                         {
                             fetchedDocs ? (
-                                fetchedDocs.filter(doc => !collabDocs.some(collabDoc => collabDoc.documentId._id.toString() === doc.id)).map(doc => (
+                                fetchedDocs.filter(doc =>
+                                    !collabDocs.some(collabDoc => collabDoc.documentId._id.toString() === doc.id && collabDoc.userId.length > 1) &&
+                                    user?.personal !== doc.id
+                                ).map(doc => (
                                     <Link
                                         href={editingDocId !== doc.id ? `/document/${doc.id}?edit=true` : '#'}
                                         key={doc.id}
@@ -259,7 +301,7 @@ const LeftSidebar = () => {
                         Cookies.remove('pookie');
                         router.push('/signIn');
                     }}
-                    className=' flex gap-4 hover:bg-[#55555690] p-1 rounded-md mb-8'
+                    className=' flex gap-4 hover:bg-[#55555690] p-2 rounded-md mb-8'
                 >
                     <Image
                         src={logout}
