@@ -14,6 +14,11 @@ export default function middleware(req: any) {
     return NextResponse.redirect("http://localhost:3000/signUp");
   }
 
+  // If the cookie doesn't exist and the current page starts with "/document/", redirect to "/signUp"
+  if (!verify && url.startsWith("http://localhost:3000/document/")) {
+    return NextResponse.redirect("http://localhost:3000/signUp");
+  }
+
   // If the cookie exists and the current page is either "/signIn" or "/signUp", redirect to the homepage
   if (
     verify &&
