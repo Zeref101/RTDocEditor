@@ -1,11 +1,12 @@
 'use client'
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import Tiptap from '@/components/editor/TipTap'
 import UserContext, { UserContextProps } from '@/context/UserDetails';
 import Share from '@/components/share/Share';
 import { useSearchParams } from 'next/navigation';
 import DocNav from '@/components/documentNavbar/DocNav';
 import axios from 'axios';
+import PacmanLoader from "react-spinners/PacmanLoader";
 
 const Page = ({ params }: { params: { id: string } }) => {
     const userContext = React.useContext(UserContext) as UserContextProps;
@@ -18,14 +19,16 @@ const Page = ({ params }: { params: { id: string } }) => {
 
     React.useEffect(() => {
         if (user) {
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+
+            }, 1500);
         }
     }, [user]);
 
     React.useEffect(() => {
         setIsEditable(searchParams.get("edit") === "true" ? true : false);
         setIsCollaborator(searchParams.get("collab") === "true" ? true : false);
-        // console.log(searchParams.keys())
     }, [searchParams]);
 
     React.useEffect(() => {
@@ -41,15 +44,28 @@ const Page = ({ params }: { params: { id: string } }) => {
     }, [isCollaborator, user?._id, params.id]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div className='w-full h-screen flex justify-center items-center'>
+                <PacmanLoader
+                    color={"#eee"}
+                    loading={isLoading}
+                    size={40}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                />
+            </div>
+        );
     }
 
     return (
         <>
-            <DocNav
-                doc_id={params.id}
-                hasSaved={user?.savedDocuments ? user.savedDocuments.includes(params.id) : false}
-            />
+            {user?.personal === params.id ? null : (
+                <DocNav
+                    doc_id={params.id}
+                    hasSaved={user?.savedDocuments ? user.savedDocuments.includes(params.id) : false}
+                />
+            )}
+
             <div className='w-full h-screen p-8 mt-24 overflow-y-scroll flex flex-col justify-center items-center font-poppins'>
                 <div className=' w-2/5 h-full'>
 
@@ -57,6 +73,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                         document_id={params.id}
                         username={user?.username ? user.username : "default"}
                         isEditable={isEditable}
+                        isPersonalDoc={false}
+                        setIsLoading={setIsLoading}
 
                     />
                 </div>
