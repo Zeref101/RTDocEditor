@@ -9,11 +9,6 @@ import saved from "../public/star.svg";
 
 export const sidebarLinks: SidebarLink[] = [
   {
-    imgURL: home,
-    route: "/",
-    label: "Home",
-  },
-  {
     imgURL: saved,
     route: "/saved",
     label: "Saved",
