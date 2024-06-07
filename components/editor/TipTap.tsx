@@ -14,20 +14,21 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { useSearchParams } from 'next/navigation';
 
 interface TipTapProps {
-    document_id: string,
-    username: string
-    isEditable: boolean
+    document_id: string;
+    username: string;
+    isEditable: boolean;
+    isPersonalDoc: boolean;
+    setIsLoading: (isloading: boolean) => void;
 }
 
-const Tiptap = ({ document_id, username, isEditable }: TipTapProps) => {
+const Tiptap = ({ document_id, username, isEditable, isPersonalDoc, setIsLoading }: TipTapProps) => {
 
-    const [isLoading, setIsLoading] = React.useState(true);
     const doc = React.useMemo(() => new Y.Doc(), []);
 
     const provider = React.useMemo(() => new TiptapCollabProvider({
         name: document_id,
         appId: "y9wv0gmx",
-        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc2NjQ1NTUsIm5iZiI6MTcxNzY2NDU1NSwiZXhwIjoxNzE3NzUwOTU1LCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ5OXd2MGdteCJ9.9W1dHLEM15Zbgw2rBupqG0yFI7YbZWr_49DVtkd0D0A",
+        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc3Mzg0NTIsIm5iZiI6MTcxNzczODQ1MiwiZXhwIjoxNzE3ODI0ODUyLCJpc3MiOiJodHRwczovL2Nsb3VkLnRpcHRhcC5kZXYiLCJhdWQiOiJ5OXd2MGdteCJ9.8D6-WgAY8P2cwbdw2iJszwUwsXsUPw19Bqkx8NfRBNU",
         document: doc,
     }), [document_id, doc]);
 
@@ -48,32 +49,32 @@ const Tiptap = ({ document_id, username, isEditable }: TipTapProps) => {
                 }
             })
         ],
-        content: "Type here",
+        content: isPersonalDoc ? "<h1>Personal Home</h1><br><h4>Organize everything in your life in one place.</h4>" : "",
         editable: isEditable
-
-
     })
 
 
     React.useEffect(() => {
-        provider.connect();
+        if (!isPersonalDoc) {
+
+            provider.connect();
+        }
         setIsLoading(false);
         return () => {
             editor?.destroy();
-            provider.disconnect();
+            if (!isPersonalDoc) {
+                provider.disconnect();
+            }
         };
-    }, [editor, provider])
+    }, [editor, provider, isPersonalDoc, setIsLoading])
 
 
     return (
         <div className='tiptap'>
-            {
-                isLoading ? (
-                    <div>Loading...</div>
-                ) : (
-                    <EditorContent editor={editor} />
-                )
-            }
+
+            <EditorContent editor={editor} />
+
+
         </div>
     )
 }
