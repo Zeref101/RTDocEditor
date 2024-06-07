@@ -5,6 +5,7 @@ export interface UserProps {
   username: string;
   email: string;
   avatar?: string;
+  personal: string;
 }
 export interface Document {
   _id: ObjectId;
@@ -18,4 +19,8 @@ export interface Document {
 export interface CollaborationDocumentProp {
   documentId: Document;
   userId: ObjectId[];
+}
+export interface docProp {
+  _id: string;
+  title: string;
 }
