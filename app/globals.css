@@ -38,5 +38,12 @@ body {
     .separator:after {
       @apply content-[""] absolute w-2/5 border-b-[#49494e] border-b border-solid top-2/4;
     }
+    .card {
+      @apply box-border w-[200px] h-[100px] border shadow-[12px_17px_51px_rgba(0,0,0,0.22)] backdrop-blur-[6px] text-center cursor-pointer transition-all duration-[0.5s] flex items-center justify-center select-none leading-6 text-[#eee] text-[20px] rounded-md border-solid border-[#7978789a] hover:border hover:border-solid hover:border-[black] hover:scale-105 font-poppins;
+      background: #26262c;
+    }
+    .card:active {
+      transform: scale(0.95) rotateZ(0.3deg);
+    }
   }
 }
