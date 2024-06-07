@@ -24,7 +24,6 @@ const Page = () => {
     return (
         <div>
             Dashboard
-            <button onClick={createDocument}>Create Document</button>
         </div>
     );
 };
