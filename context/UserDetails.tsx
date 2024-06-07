@@ -8,6 +8,7 @@ export interface UserProps {
     email: string,
     avatar?: string,
     savedDocuments: string[]
+    personal: string
 }
 
 export interface UserContextProps {
@@ -37,7 +38,7 @@ export const UserDetails = ({ children }: { children: React.ReactNode }) => {
                     console.log('Received data from server:', data);
 
                     setUser(data.user);
-                    console.log('Set user:', data.user);
+                    console.log('user personal:', typeof (data.user.personal));
                 } catch (error) {
                     console.error('Failed to fetch user details:', error);
                 } finally {
